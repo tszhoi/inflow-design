@@ -1,16 +1,45 @@
 <!doctype html>
-<script src="https://cdn.tailwindcss.com"></script>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Coming Soon</title>
+  <title>inflow design co.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tailwind (Play CDN) – optional but handy for typography/spacing tweaks -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    body{margin:0;height:100vh;display:flex;justify-content:center;align-items:center;font-family:system-ui;background:#f7f7f7}
-    h1{font-size:3rem;font-weight:600;color:#333;text-align:center}
+    /* ----- animated gradient background ----- */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg,
+        #ffadad,   /* strawberry */
+        #ffd6a5,   /* peach */
+        #fdffb6,   /* lemon */
+        #caffbf,   /* mint */
+        #9bf6ff);  /* sky */
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease-in-out infinite;
+      font-family: system-ui, sans-serif;
+    }
+    @keyframes gradientShift {
+      0%,100% { background-position: 0% 50%; }
+      50%     { background-position: 100% 50%; }
+    }
   </style>
 </head>
 <body>
-  <h1>👋 New site loading…<br/>check back soon!</h1>
+  <main class="text-center leading-snug">
+    <h1 class="text-4xl md:text-6xl font-semibold tracking-wide">
+      inflow design co.
+    </h1>
+    <p class="mt-4 text-lg md:text-2xl italic opacity-80">
+      coming&nbsp;soon…
+    </p>
+  </main>
 </body>
 </html>

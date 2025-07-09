@@ -5,59 +5,56 @@
   <title>inflow design co.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Google Font -->
+  <!-- Google Font: Libre Baskerville -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Favicon (💧 droplet) as inline SVG -->
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ctext y='96' font-size='96'%3E%F0%9F%92%A7%3C/text%3E%3C/svg%3E">
 
   <!-- Tailwind Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* ---- baseline page setup ---- */
-    html,body{
-      height:100%;
-      margin:0;
+    /* ---- full-page mesh gradient ---- */
+    html,body { height:100%; margin:0; }
+    body {
+      display:flex; justify-content:center; align-items:center;
+      overflow:hidden; position:relative;
+      background:#ffadad;                   /* light fallback (no black) */
+      font-family:system-ui,sans-serif;     /* default sans for all text */
     }
-    body{
-      font-family:"Libre Baskerville",serif;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      overflow:hidden;          /* hide the drifting blobs */
-      position:relative;        /* anchor the pseudo-element */
-      background:#000;          /* fallback while gradient loads */
-    }
-
-    /* ---- mesh gradient via :before ---- */
-    body::before{
+    body::before {
       content:"";
-      position:absolute;
-      inset:-50px;              /* let blobs float past edges */
+      position:absolute; inset:-50px;       /* let blobs drift off edges */
       background:
         radial-gradient(at 15% 25%, #ffadad 0%, transparent 55%),
         radial-gradient(at 85% 15%, #ffd6a5 0%, transparent 55%),
         radial-gradient(at 25% 75%, #fdffb6 0%, transparent 55%),
         radial-gradient(at 80% 80%, #caffbf 0%, transparent 55%),
         radial-gradient(at 50% 50%, #9bf6ff 0%, transparent 55%);
-      background-blend-mode: screen;   /* soften overlaps */
+      background-blend-mode: screen;
       filter: blur(90px);
       animation: wander 24s linear infinite alternate;
-      z-index:-1;                         /* sit behind text */
+      z-index: -1;
     }
-
-    @keyframes wander{
-      0%   { transform:translate(-10%, -10%) scale(1); }
-      50%  { transform:translate(10%, 5%)  scale(1.1); }
-      100% { transform:translate(-5%, 15%) scale(1); }
+    @keyframes wander {
+      0%,100% { transform: translate(-10%, -10%) scale(1); }
+      50%     { transform: translate(10%, 5%)  scale(1.1); }
     }
   </style>
 </head>
 <body>
   <main class="text-center leading-snug">
-    <h1 class="text-3xl md:text-5xl font-bold italic tracking-wide text-white">
+    <!-- Headline: Libre Baskerville italic, white, –3 % letter-spacing -->
+    <h1 class="text-3xl md:text-5xl font-bold italic text-white"
+        style="font-family:'Libre Baskerville',serif; letter-spacing:-0.03em;">
       inflow design co.
     </h1>
+
+    <!-- Sub-line: default sans, white, not italic -->
     <p class="mt-3 text-base md:text-xl text-white opacity-90">
       coming&nbsp;soon…
     </p>

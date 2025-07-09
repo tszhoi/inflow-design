@@ -5,39 +5,60 @@
   <title>inflow design co.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Tailwind (Play CDN) – optional but handy for typography/spacing tweaks -->
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* ----- animated gradient background ----- */
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(-45deg,
-        #ffadad,   /* strawberry */
-        #ffd6a5,   /* peach */
-        #fdffb6,   /* lemon */
-        #caffbf,   /* mint */
-        #9bf6ff);  /* sky */
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease-in-out infinite;
-      font-family: system-ui, sans-serif;
+    /* ---- baseline page setup ---- */
+    html,body{
+      height:100%;
+      margin:0;
     }
-    @keyframes gradientShift {
-      0%,100% { background-position: 0% 50%; }
-      50%     { background-position: 100% 50%; }
+    body{
+      font-family:"Libre Baskerville",serif;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;          /* hide the drifting blobs */
+      position:relative;        /* anchor the pseudo-element */
+      background:#000;          /* fallback while gradient loads */
+    }
+
+    /* ---- mesh gradient via :before ---- */
+    body::before{
+      content:"";
+      position:absolute;
+      inset:-50px;              /* let blobs float past edges */
+      background:
+        radial-gradient(at 15% 25%, #ffadad 0%, transparent 55%),
+        radial-gradient(at 85% 15%, #ffd6a5 0%, transparent 55%),
+        radial-gradient(at 25% 75%, #fdffb6 0%, transparent 55%),
+        radial-gradient(at 80% 80%, #caffbf 0%, transparent 55%),
+        radial-gradient(at 50% 50%, #9bf6ff 0%, transparent 55%);
+      background-blend-mode: screen;   /* soften overlaps */
+      filter: blur(90px);
+      animation: wander 24s linear infinite alternate;
+      z-index:-1;                         /* sit behind text */
+    }
+
+    @keyframes wander{
+      0%   { transform:translate(-10%, -10%) scale(1); }
+      50%  { transform:translate(10%, 5%)  scale(1.1); }
+      100% { transform:translate(-5%, 15%) scale(1); }
     }
   </style>
 </head>
 <body>
   <main class="text-center leading-snug">
-    <h1 class="text-4xl md:text-6xl font-semibold tracking-wide">
+    <h1 class="text-3xl md:text-5xl font-bold italic tracking-wide text-white">
       inflow design co.
     </h1>
-    <p class="mt-4 text-lg md:text-2xl italic opacity-80">
+    <p class="mt-3 text-base md:text-xl text-white opacity-90">
       coming&nbsp;soon…
     </p>
   </main>

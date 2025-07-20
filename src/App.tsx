@@ -101,10 +101,8 @@ function App() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Company Name - Bottom Left */}
-      <header className="fixed bottom-8 left-8 z-50">
-        <h1 className="text-xl font-medium text-gray-800 title-italic tracking-tighter">
-          inflow design co.
-        </h1>
+      <header className="fixed bottom-4 left-8 z-50">
+        <img src="/inflow.svg" alt="Inflow Design Co." className="w-48 h-16" />
       </header>
 
       {/* Main Content */}
@@ -113,12 +111,11 @@ function App() {
         <section className="h-[80vh] flex items-center justify-center px-4" aria-labelledby="hero-title">
           <div className="max-w-3xl mx-auto">
             <div className="text-center animate-fade-in">
-              <p className="text-gray-300 text-xl mb-4 title-italic tracking-tight">
-                inflow design co.
-              </p>
+              <div className="flex justify-center mb-4">
+                <img src="/inflow.svg" alt="Inflow Design Co." className="w-48 h-16" />
+              </div>
               <h2 id="hero-title" className="text-3xl md:text-5xl font-light mb-6 leading-tighter md:leading-tight title-italic tracking-tighter">
                 Crafting design that flows
-                <span className="inline-block w-1 h-12 md:h-16 bg-gray-800 ml-2 animate-pulse"></span>
               </h2>
             </div>
           </div>

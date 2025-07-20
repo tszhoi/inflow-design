@@ -101,35 +101,36 @@ function App() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Company Name - Bottom Left */}
-      <div className="fixed bottom-8 left-8 z-50">
+      <header className="fixed bottom-8 left-8 z-50">
         <h1 className="text-xl font-medium text-gray-800 title-italic tracking-tighter">
           inflow design co.
         </h1>
-      </div>
+      </header>
 
       {/* Main Content */}
       <main className="pt-8">
         {/* Hero Section */}
-        <section className="h-[80vh] flex items-center justify-center px-4">
+        <section className="h-[80vh] flex items-center justify-center px-4" aria-labelledby="hero-title">
           <div className="max-w-3xl mx-auto">
             <div className="text-center animate-fade-in">
               <p className="text-gray-300 text-xl mb-4 title-italic tracking-tight">
                 inflow design co.
               </p>
-              <h2 className="text-3xl md:text-5xl font-light mb-6 leading-tighter md:leading-tight title-italic tracking-tighter">
-              Crafting design that flows
+              <h2 id="hero-title" className="text-3xl md:text-5xl font-light mb-6 leading-tighter md:leading-tight title-italic tracking-tighter">
+                Crafting design that flows
               </h2>
             </div>
           </div>
         </section>
 
         {/* Project Cards - Pure Visual */}
-        <section className="px-4 pb-12 -mt-20">
+        <section className="px-4 pb-12 -mt-20" aria-labelledby="projects-title">
           <div className="max-w-7xl mx-auto relative">
+            <h2 id="projects-title" className="sr-only">Our Projects</h2>
             <div className="grid grid-cols-3 gap-6">
               {/* Left Column */}
               <div className="space-y-6 -mt-6">
-                <div className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.1s' }}>
+                <article className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.1s' }}>
                   <div className={`aspect-[5/6] ${projects[0].bgColor} rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl`}>
                     {/* UI Mockup */}
                     <div className="h-full flex flex-col">
@@ -167,9 +168,9 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
                 
-                <div className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.3s' }}>
+                <article className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.3s' }}>
                   <div className={`aspect-[5/6] ${projects[1].bgColor} rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl`}>
                     <div className="h-full flex flex-col">
                       <div className="flex items-center justify-between mb-3">
@@ -198,12 +199,12 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
               </div>
 
               {/* Middle Column - Lower Position */}
               <div className="space-y-6 pt-8">
-                <div className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                <article className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.2s' }}>
                   <div className={`aspect-[5/6] ${projects[2].bgColor} rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl`}>
                     <div className="h-full flex flex-col">
                       <div className="flex items-center justify-between mb-3">
@@ -232,9 +233,9 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
                 
-                <div className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.4s' }}>
+                <article className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.4s' }}>
                   <div className={`aspect-[5/6] ${projects[3].bgColor} rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl`}>
                     <div className="h-full flex flex-col">
                       <div className="flex items-center justify-between mb-3">
@@ -263,12 +264,12 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
               </div>
 
               {/* Right Column */}
               <div className="space-y-6 -mt-6">
-                <div className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.3s' }}>
+                <article className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.3s' }}>
                   <div className={`aspect-[5/6] ${projects[4].bgColor} rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl`}>
                     <div className="h-full flex flex-col">
                       <div className="flex items-center justify-between mb-3">
@@ -297,9 +298,9 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
                 
-                <div className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.5s' }}>
+                <article className="group cursor-pointer animate-slide-up" style={{ animationDelay: '0.5s' }}>
                   <div className={`aspect-[5/6] ${projects[5].bgColor} rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl`}>
                     <div className="h-full flex flex-col">
                       <div className="flex items-center justify-between mb-3">
@@ -328,15 +329,16 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
               </div>
             </div>
           </div>
         </section>
 
         {/* Testimonials - Client Logos */}
-        <section className="px-4 py-16">
+        <section className="px-4 py-16" aria-labelledby="testimonials-title">
           <div className="max-w-4xl mx-auto">
+            <h2 id="testimonials-title" className="sr-only">Client Testimonials</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
               {/* Row 1 */}
               <div className="flex justify-center">
@@ -376,17 +378,17 @@ function App() {
         </section>
 
         {/* Services - With Descriptions */}
-        <section className="px-4 py-16">
+        <section className="px-4 py-16" aria-labelledby="services-title">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
-              <h3 className="text-3xl md:text-5xl font-light mb-12 leading-tighter md:leading-tight title-italic text-gray-800 tracking-tighter">We specialise in</h3>
+              <h2 id="services-title" className="text-3xl md:text-5xl font-light mb-12 leading-tighter md:leading-tight title-italic text-gray-800 tracking-tighter">We specialise in</h2>
               <div className="flex flex-wrap gap-8 items-center">
                 {services.map((service) => (
                   <div 
                     key={service.id}
                     className="flex items-center gap-3"
                   >
-                    <div className="text-gray-600">
+                    <div className="text-gray-600" aria-hidden="true">
                       {service.icon}
                     </div>
                     <span className="text-gray-700 font-medium">{service.title}</span>
@@ -398,14 +400,16 @@ function App() {
         </section>
 
         {/* CTA - Minimal */}
-        <section className="px-4 pb-12">
+        <section className="px-4 pb-12" aria-labelledby="cta-title">
           <div className="max-w-2xl mx-auto text-center">
+            <h2 id="cta-title" className="sr-only">Get in Touch</h2>
             <button 
               onClick={() => window.open('mailto:lee@inflowdesign.co')}
               className="group bg-gray-800 text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-700 transition-all duration-300 flex items-center gap-2 mx-auto"
+              aria-label="Send email to lee@inflowdesign.co"
             >
               Get in touch
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </button>
           </div>
         </section>
@@ -417,6 +421,36 @@ function App() {
           <p>&copy; 2025 Inflow Design Co.</p>
         </div>
       </footer>
+
+      {/* Structured Data for SEO */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "Inflow Design Co.",
+          "description": "We design digital experiences that flow. Specializing in product design, UI/UX, and startup consulting for 0-1 companies and crypto projects.",
+          "url": "https://inflowdesign.co",
+          "logo": "https://inflowdesign.co/logo.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "lee@inflowdesign.co",
+            "contactType": "customer service"
+          },
+          "sameAs": [
+            "https://twitter.com/inflowdesign",
+            "https://linkedin.com/company/inflow-design"
+          ],
+          "serviceType": [
+            "Product Design",
+            "UI/UX Design", 
+            "Startup Consulting",
+            "Game Development",
+            "E-commerce Solutions"
+          ],
+          "areaServed": "Worldwide",
+          "foundingDate": "2025"
+        })}
+      </script>
     </div>
   )
 }

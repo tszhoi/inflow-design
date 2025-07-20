@@ -112,7 +112,7 @@ function App() {
           <div className="max-w-3xl mx-auto">
             <div className="text-center animate-fade-in">
               <div className="flex justify-center mb-4">
-                <img src="/inflow.svg" alt="Inflow Design Co." className="w-48 h-16" />
+                <img src="/inflowgrey.svg" alt="Inflow Design Co." className="w-48 h-16" />
               </div>
               <h2 id="hero-title" className="text-3xl md:text-5xl font-light mb-6 leading-tighter md:leading-tight title-italic tracking-tighter">
                 Crafting design that flows
@@ -379,7 +379,7 @@ function App() {
         <section className="px-4 py-16" aria-labelledby="services-title">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
-              <h2 id="services-title" className="text-3xl md:text-5xl font-light mb-12 leading-tighter md:leading-tight title-italic text-gray-800 tracking-tighter">We specialise in</h2>
+              <h2 id="services-title" className="text-3xl md:text-5xl font-light mb-12 leading-tighter md:leading-tight title-italic text-gray-800 tracking-tighter">Covering everything between</h2>
               <div className="flex flex-wrap gap-8 items-center">
                 {services.map((service) => (
                   <div 

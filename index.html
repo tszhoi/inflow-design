@@ -2,65 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>inflow design co.</title>
+  <title>Inflow Design Co. - Product & UI/UX Design</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Inflow Design Co. - Specializing in UI/UX Design, Product Design, Startup Consulting, Game Development, and E-commerce solutions for 0-1 startups and crypto projects." />
 
-  <!-- Google Font: Libre Baskerville -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Favicon (💧) as inline SVG -->
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ctext y='96' font-size='96'%3E%F0%9F%92%A7%3C/text%3E%3C/svg%3E">
-
-  <!-- Tailwind Play CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    /* ---- mesh gradient: your custom palette ---- */
-    html,body { height:100%; margin:0; }
-    body {
-      display:flex; justify-content:center; align-items:center;
-      overflow:hidden; position:relative;
-      background-color:#99fffc;                /* solid fallback */
-      font-family:system-ui,sans-serif;
-    }
-    body::before {
-      content:""; position:absolute; inset:-60px;
-      background-image:
-        radial-gradient(at 20% 75%, hsla(212,82%,79%,1) 0px, transparent 50%),
-        radial-gradient(at 94% 94%, hsla(212,79%,71%,1) 0px, transparent 50%),
-        radial-gradient(at 30% 59%, hsla(69,81%,75%,1) 0px, transparent 50%),
-        radial-gradient(at 59% 76%, hsla(85,61%,65%,1) 0px, transparent 50%),
-        radial-gradient(at 70% 37%, hsla(43,67%,71%,1) 0px, transparent 50%),
-        radial-gradient(at 78% 14%, hsla(15,81%,64%,1) 0px, transparent 50%),
-        radial-gradient(at 93% 68%, hsla(198,89%,77%,1) 0px, transparent 50%);
-      background-blend-mode:screen;
-      filter:blur(90px);
-      animation:wander 24s linear infinite alternate;
-      z-index:-1;
-    }
-    @keyframes wander {
-      0%,100% { transform:translate(-12%,-10%) scale(1); }
-      50%     { transform:translate(10%,8%)   scale(1.1); }
-    }
-  </style>
 </head>
 <body>
-  <main class="text-center leading-snug">
-    <!-- headline now text-xl (≈20 px) -->
-    <h1 class="text-xl md:text-3xl italic text-white font-thin"
-        style="font-family:'Libre Baskerville',serif;
-               font-weight:100;
-               letter-spacing:-1.74px;">
-      inflow design co.
-    </h1>
-
-    <!-- sub-line unchanged -->
-    <p class="mt-3 text-base md:text-xl text-white opacity-90">
-      coming&nbsp;soon…
-    </p>
-  </main>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

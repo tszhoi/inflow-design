@@ -118,6 +118,7 @@ function App() {
               </p>
               <h2 id="hero-title" className="text-3xl md:text-5xl font-light mb-6 leading-tighter md:leading-tight title-italic tracking-tighter">
                 Crafting design that flows
+                <span className="inline-block w-1 h-12 md:h-16 bg-gray-800 ml-2 animate-pulse"></span>
               </h2>
             </div>
           </div>

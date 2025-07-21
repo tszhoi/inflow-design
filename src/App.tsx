@@ -508,12 +508,12 @@ function App() {
                   </li>
                 </ul>
                 
-                <button 
-                  onClick={() => window.open('mailto:lee@inflowdesign.co?subject=Subscription%20Inquiry')}
-                  className="w-full bg-gray-800 text-white py-3 px-6 rounded-xl font-medium hover:bg-gray-700 transition-colors"
+                <a 
+                  href="mailto:lee@inflowdesign.co?subject=Subscription%20Inquiry"
+                  className="w-full bg-gray-800 text-white py-3 px-6 rounded-xl font-medium hover:bg-gray-700 transition-colors inline-block text-center"
                 >
                   Get Started
-                </button>
+                </a>
               </div>
 
               {/* Project-Based Card */}
@@ -549,7 +549,7 @@ function App() {
                 </ul>
                 
                 <button 
-                  onClick={() => window.open('mailto:lee@inflowdesign.co?subject=Project%20Inquiry')}
+                  onClick={() => window.open('mailto:lee@inflowdesign.co')}
                   className="w-full bg-gray-800 text-white py-3 px-6 rounded-xl font-medium hover:bg-gray-700 transition-colors"
                 >
                   Start Project
@@ -581,7 +581,7 @@ function App() {
       {/* Footer - Minimal */}
       <footer className="py-6 px-4">
         <div className="max-w-6xl mx-auto text-center text-gray-500 text-sm">
-          <p>&copy; 2025 Inflow Design Co.</p>
+          <p>&copy; 2025 inflow design co.</p>
         </div>
       </footer>
 

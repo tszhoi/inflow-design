@@ -12,12 +12,8 @@ import {
   Sparkles,
   TrendingUp,
   Check,
-  Eye,
-  Zap as Lightning,
-  Heart,
   Globe,
-  Users,
-  TrendingUp as Growth
+  Users
 } from 'lucide-react'
 
 interface Project {

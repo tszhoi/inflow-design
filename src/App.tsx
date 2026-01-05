@@ -6,10 +6,8 @@ import {
   Rocket, 
   Gamepad2, 
   ShoppingCart, 
-  Bitcoin,
   ArrowRight,
   Megaphone,
-  Sparkles,
   TrendingUp,
   Check,
   Globe,
@@ -60,8 +58,72 @@ const services: Service[] = [
   }
 ]
 
+type Category = 'Startup' | 'Crypto' | 'Small Business'
+
+interface BentoCard {
+  id: number
+  category: Category[]
+  title?: string
+  description?: string
+  image?: string
+  span?: 'wide' | 'tall' | 'normal'
+}
+
+const bentoCards: BentoCard[] = [
+  {
+    id: 1,
+    category: ['Startup'],
+    span: 'wide',
+    image: '/wavy.png',
+  },
+  {
+    id: 2,
+    category: ['Startup'],
+    span: 'tall',
+    image: '/jupitrr.png',
+  },
+  {
+    id: 3,
+    category: ['Small Business'],
+    span: 'tall',
+  },
+  {
+    id: 4,
+    category: ['Small Business'],
+    span: 'wide',
+    image: '/brighthome.png',
+  },
+  {
+    id: 5,
+    category: ['Small Business'],
+    span: 'wide',
+    image: '/beautyspace.png',
+  },
+  {
+    id: 6,
+    category: ['Crypto'],
+    span: 'wide',
+  },
+  {
+    id: 7,
+    category: ['Startup'],
+    span: 'wide',
+  },
+  {
+    id: 8,
+    category: ['Crypto'],
+    span: 'tall',
+  },
+  {
+    id: 9,
+    category: ['Crypto'],
+    span: 'wide',
+  },
+]
+
 function App() {
   const [showLogo, setShowLogo] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState<Category>('Startup')
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,6 +138,15 @@ function App() {
 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const filteredCards = bentoCards
+    .filter(card => card.category.includes(selectedCategory))
+    .sort((a, b) => {
+      // Put tall cards first (on the left)
+      if (a.span === 'tall' && b.span !== 'tall') return -1
+      if (a.span !== 'tall' && b.span === 'tall') return 1
+      return 0
+    })
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -124,24 +195,61 @@ function App() {
         </section>
 
         {/* Bento Grid - Project Showcase */}
-        <section className="mt-8" aria-labelledby="projects-title">
+        <section className="mt-8 mb-8" aria-labelledby="projects-title">
           <div className="mx-auto relative">
             <h2 id="projects-title" className="sr-only">Our Projects</h2>
-            <div className="grid grid-cols-2 gap-4">
-              {/* Wide Card Top */}
-              <article className="group cursor-pointer col-span-1 row-span-1">
-                <div className="relative h-[400px] rounded-xl overflow-hidden bg-gray-100"></div>
-              </article>
-
-              {/* Tall Card - Spans 2 rows */}
-              <article className="group cursor-pointer col-span-1 row-span-2">
-                <div className="relative h-full min-h-[816px] rounded-xl overflow-hidden bg-gray-100"></div>
-              </article>
-
-              {/* Wide Card Bottom */}
-              <article className="group cursor-pointer col-span-1 row-span-1">
-                <div className="relative h-[400px] rounded-xl overflow-hidden bg-gray-100"></div>
-              </article>
+            
+            {/* Bento Grid */}
+            {filteredCards.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[250px] md:auto-rows-[350px] relative">
+                {filteredCards.map((card) => {
+                  const isWide = card.span === 'wide'
+                  const isTall = card.span === 'tall'
+                  
+                  return (
+                    <article 
+                      key={card.id}
+                      className={`group cursor-pointer ${isWide ? 'col-span-1 row-span-1' : isTall ? 'col-span-1 row-span-1 md:row-span-2' : 'col-span-1 row-span-1'}`}
+                    >
+                      <div className="relative rounded-xl bg-gray-100 h-full overflow-hidden">
+                        {card.image && card.category.includes(selectedCategory) && (
+                          <div className="absolute rounded-lg shadow-lg overflow-hidden left-16 top-10 h-full min-h-full w-auto">
+                            <img 
+                              src={card.image} 
+                              alt={card.title || `Project ${card.id}`}
+                              className="w-full object-contain"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </article>
+                  )
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-16 text-gray-500">
+                <p>No projects found for this category.</p>
+              </div>
+            )}
+            
+            {/* Category Toggle - Filter Projects - Overlay at bottom left */}
+            <div className="absolute bottom-4 left-4 z-10">
+              <div className="inline-flex items-center gap-0.5 rounded-full p-1 shadow-lg backdrop-blur-md bg-white/60 border border-gray-200/60" style={{ border: 'none', outline: 'none' }}>
+                {(['Startup', 'Crypto', 'Small Business'] as Category[]).map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-1.5 rounded-full font-book text-base transition-all duration-300 whitespace-nowrap ${
+                      selectedCategory === category
+                        ? 'bg-white/60 text-gray-800 backdrop-blur-sm'
+                        : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50/30'
+                    }`}
+                    aria-pressed={selectedCategory === category}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -186,35 +294,10 @@ function App() {
           </div>
         </section>
 
-        {/* Combined Focus & Services */}
-        <section className="px-4 pt-32 pb-32 bg-white" aria-labelledby="focus-title">
+        {/* Services */}
+        <section className="px-4 pt-32 pb-32 bg-white" aria-labelledby="services-title">
           <div className="max-w-4xl mt-1 mx-auto">
-            <h2 id="focus-title" className="text-2xl md:text-2xl text-center font-light mb-16 leading-tighter md:leading-tight title-italic text-gray-800 tracking-tighter">we specialise in</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-24">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="w-6 h-6 text-[#3791EF]" />
-                </div>
-                <h3 className="text-xl font-medium text-gray-800 mb-2">0-1 Startups</h3>
-                <p className="text-gray-600">Building products from idea to launch</p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="w-6 h-6 text-purple-500" />
-                </div>
-                <h3 className="text-xl font-medium text-gray-800 mb-2">AI</h3>
-                <p className="text-gray-600">Next-generation AI-powered experiences</p>
-              </div>
-              
-              <div className="text-center">
-                  <div className="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Bitcoin className="w-6 h-6 text-yellow-500" />
-                </div>
-                <h3 className="text-xl font-medium text-gray-800 mb-2">Crypto</h3>
-                <p className="text-gray-600">DeFi, Web3, and blockchain solutions</p>
-              </div>
-            </div>
+            <h2 id="services-title" className="sr-only">Our Services</h2>
             <div className="flex flex-wrap justify-center gap-8 items-center">
               {services.map((service) => (
                 <div 

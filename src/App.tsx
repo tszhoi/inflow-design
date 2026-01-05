@@ -58,7 +58,7 @@ const services: Service[] = [
   }
 ]
 
-type Category = 'Startup' | 'Crypto' | 'Small Business'
+type Category = 'Startup' | 'Crypto' | 'Small Business' | 'Corporate'
 
 interface BentoCard {
   id: number
@@ -103,20 +103,39 @@ const bentoCards: BentoCard[] = [
     id: 6,
     category: ['Crypto'],
     span: 'wide',
+    image: '/Coinfrs.png',
   },
   {
     id: 7,
     category: ['Startup'],
     span: 'wide',
+    image: '/remotion.png',
   },
   {
     id: 8,
     category: ['Crypto'],
     span: 'tall',
+    image: '/gero.png',
   },
   {
     id: 9,
     category: ['Crypto'],
+    span: 'wide',
+    image: '/buzzup.png',
+  },
+  {
+    id: 10,
+    category: ['Corporate'],
+    span: 'tall',
+  },
+  {
+    id: 11,
+    category: ['Corporate'],
+    span: 'wide',
+  },
+  {
+    id: 12,
+    category: ['Corporate'],
     span: 'wide',
   },
 ]
@@ -138,6 +157,18 @@ function App() {
 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    const categories: Category[] = ['Startup', 'Crypto', 'Small Business', 'Corporate']
+    let currentIndex = categories.indexOf(selectedCategory)
+
+    const interval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % categories.length
+      setSelectedCategory(categories[currentIndex])
+    }, 5000) // 5 seconds
+
+    return () => clearInterval(interval)
+  }, [selectedCategory])
 
   const filteredCards = bentoCards
     .filter(card => card.category.includes(selectedCategory))
@@ -162,7 +193,7 @@ function App() {
         {/* Hero Section */}
         <section className="h-[90vh] relative overflow-hidden" aria-labelledby="hero-title">
           {/* Mesh Gradient Background with Content */}
-          <div className="absolute inset-0 flex items-end justify-start pb-8">
+          <div className="absolute inset-0 flex items-end justify-between pb-8">
             <MeshGradient 
               speed={0.3} 
               scale={1.23} 
@@ -180,7 +211,7 @@ function App() {
                 inset: 0
               }} 
             />
-            <div className="max-w-3xl relative z-10 px-8">
+            <div className="w-full relative z-10 px-8 flex justify-between items-end">
               <div className="text-left animate-fade-in">
                 <div className="flex justify-start mb-2">
                   <img src="/inflowgrey.svg" alt="Inflow Design Co." className="w-48 h-16 brightness-0 invert" />
@@ -188,8 +219,9 @@ function App() {
                 <h2 id="hero-title" className="text-3xl text-white md:text-6xl font-sans font-medium mb-4 leading-tighter md:leading-tight tracking-[-0.08em]">
                   Crafting design that flows
                 </h2>
-                <p className="text-lg mb-6 ml-1 leading-tighter text-white tracking-tighter">Design partner for your business</p>
+                <p className="text-lg leading-tighter text-white tracking-tighter">Design partner for your business</p>
               </div>
+              <p className="text-lg text-white tracking-tighter">Hong Kong, San Francisco, London, Vancouver</p>
             </div>
           </div>
         </section>
@@ -211,9 +243,9 @@ function App() {
                       key={card.id}
                       className={`group cursor-pointer ${isWide ? 'col-span-1 row-span-1' : isTall ? 'col-span-1 row-span-1 md:row-span-2' : 'col-span-1 row-span-1'}`}
                     >
-                      <div className="relative rounded-xl bg-gray-100 h-full overflow-hidden">
+                      <div className="relative bg-gray-100 h-full overflow-hidden rounded-xl">
                         {card.image && card.category.includes(selectedCategory) && (
-                          <div className="absolute rounded-lg shadow-lg overflow-hidden left-16 top-10 h-full min-h-full w-auto">
+                          <div className="absolute overflow-hidden left-12 top-10 h-full min-h-full w-auto shadow-xl rounded-lg">
                             <img 
                               src={card.image} 
                               alt={card.title || `Project ${card.id}`}
@@ -235,13 +267,13 @@ function App() {
             {/* Category Toggle - Filter Projects - Overlay at bottom left */}
             <div className="absolute bottom-4 left-4 z-10">
               <div className="inline-flex items-center gap-0.5 rounded-full p-1 shadow-lg backdrop-blur-md bg-white/60 border border-gray-200/60" style={{ border: 'none', outline: 'none' }}>
-                {(['Startup', 'Crypto', 'Small Business'] as Category[]).map((category) => (
+                {(['Startup', 'Crypto', 'Small Business', 'Corporate'] as Category[]).map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
                     className={`px-4 py-1.5 rounded-full font-book text-base transition-all duration-300 whitespace-nowrap ${
                       selectedCategory === category
-                        ? 'bg-white/60 text-gray-800 backdrop-blur-sm'
+                        ? 'bg-white/60 text-gray-800'
                         : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50/30'
                     }`}
                     aria-pressed={selectedCategory === category}

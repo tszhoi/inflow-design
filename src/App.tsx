@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { MeshGradient } from '@paper-design/shaders-react'
 import { 
   Palette, 
@@ -143,6 +143,9 @@ const bentoCards: BentoCard[] = [
 function App() {
   const [showLogo, setShowLogo] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<Category>('Startup')
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, height: 0, top: 0 })
+  const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({})
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -170,6 +173,31 @@ function App() {
     return () => clearInterval(interval)
   }, [selectedCategory])
 
+  useEffect(() => {
+    const updateIndicator = () => {
+      const button = buttonRefs.current[selectedCategory]
+      const container = containerRef.current
+      if (button && container) {
+        const containerRect = container.getBoundingClientRect()
+        const buttonRect = button.getBoundingClientRect()
+        setIndicatorStyle({
+          left: buttonRect.left - containerRect.left,
+          width: buttonRect.width,
+          height: buttonRect.height,
+          top: buttonRect.top - containerRect.top
+        })
+      }
+    }
+    
+    // Small delay to ensure buttons are rendered
+    const timeout = setTimeout(updateIndicator, 0)
+    window.addEventListener('resize', updateIndicator)
+    return () => {
+      clearTimeout(timeout)
+      window.removeEventListener('resize', updateIndicator)
+    }
+  }, [selectedCategory])
+
   const filteredCards = bentoCards
     .filter(card => card.category.includes(selectedCategory))
     .sort((a, b) => {
@@ -191,12 +219,12 @@ function App() {
       {/* Main Content */}
       <main className="pt-8 px-8">
         {/* Hero Section */}
-        <section className="h-[90vh] relative overflow-hidden" aria-labelledby="hero-title">
+        <section className="h-[50vh] relative overflow-hidden" aria-labelledby="hero-title">
           {/* Mesh Gradient Background with Content */}
-          <div className="absolute inset-0 flex items-end justify-between pb-8">
+          <div className="absolute inset-0 flex items-center justify-between">
             <MeshGradient 
               speed={0.3} 
-              scale={1.23} 
+              scale={1.20} 
               distortion={0.76} 
               swirl={1} 
               colors={['#CADBEA', '#3791EF', '#4EAEFF']} 
@@ -211,9 +239,9 @@ function App() {
                 inset: 0
               }} 
             />
-            <div className="w-full relative z-10 px-8 flex justify-between items-end">
+            <div className="w-full relative px-8 flex justify-start items-center">
               <div className="text-left animate-fade-in">
-                <div className="flex justify-start mb-2">
+                <div className="flex justify-start mb-1">
                   <img src="/inflowgrey.svg" alt="Inflow Design Co." className="w-48 h-16 brightness-0 invert" />
                 </div>
                 <h2 id="hero-title" className="text-3xl text-white md:text-6xl font-sans font-medium mb-4 leading-tighter md:leading-tight tracking-[-0.08em]">
@@ -221,13 +249,54 @@ function App() {
                 </h2>
                 <p className="text-lg leading-tighter text-white tracking-tighter">Design partner for your business</p>
               </div>
+            </div>
+            
+            {/* Country List - Bottom right */}
+            <div className="absolute bottom-5 right-5 z-10">
               <p className="text-lg text-white tracking-tighter">Hong Kong, San Francisco, London, Vancouver</p>
+            </div>
+            
+            {/* Category Toggle - Filter Projects - Overlay at bottom left */}
+            <div className="absolute bottom-4 left-4 z-10">
+              <div 
+                ref={containerRef}
+                className="relative inline-flex items-center gap-0.5 rounded-full p-1 shadow-sm backdrop-blur-md bg-white/60 border border-gray-200/60" 
+                style={{ border: 'none', outline: 'none' }}
+              >
+                {/* Sliding Indicator */}
+                {indicatorStyle.width > 0 && (
+                  <div
+                    className="absolute bg-white/60 rounded-full transition-all duration-300 ease-out"
+                    style={{
+                      left: `${indicatorStyle.left}px`,
+                      width: `${indicatorStyle.width}px`,
+                      height: `${indicatorStyle.height}px`,
+                      top: `${indicatorStyle.top}px`
+                    }}
+                  />
+                )}
+                {(['Startup', 'Crypto', 'Small Business', 'Corporate'] as Category[]).map((category) => (
+                  <button
+                    key={category}
+                    ref={(el) => (buttonRefs.current[category] = el)}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`relative px-4 py-1.5 rounded-full font-book text-base transition-colors duration-100 whitespace-nowrap ${
+                      selectedCategory === category
+                        ? 'text-blue-500'
+                        : 'text-gray-400 hover:text-blue-500 hover:bg-gray-50/30'
+                    }`}
+                    aria-pressed={selectedCategory === category}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         {/* Bento Grid - Project Showcase */}
-        <section className="mt-8 mb-8" aria-labelledby="projects-title">
+        <section className="mt-4 mb-8" aria-labelledby="projects-title">
           <div className="mx-auto relative">
             <h2 id="projects-title" className="sr-only">Our Projects</h2>
             
@@ -241,7 +310,7 @@ function App() {
                   return (
                     <article 
                       key={card.id}
-                      className={`group cursor-pointer ${isWide ? 'col-span-1 row-span-1' : isTall ? 'col-span-1 row-span-1 md:row-span-2' : 'col-span-1 row-span-1'}`}
+                      className={`group ${isWide ? 'col-span-1 row-span-1' : isTall ? 'col-span-1 row-span-1 md:row-span-2' : 'col-span-1 row-span-1'}`}
                     >
                       <div className="relative bg-gray-100 h-full overflow-hidden rounded-xl">
                         {card.image && card.category.includes(selectedCategory) && (
@@ -263,34 +332,14 @@ function App() {
                 <p>No projects found for this category.</p>
               </div>
             )}
-            
-            {/* Category Toggle - Filter Projects - Overlay at bottom left */}
-            <div className="absolute bottom-4 left-4 z-10">
-              <div className="inline-flex items-center gap-0.5 rounded-full p-1 shadow-lg backdrop-blur-md bg-white/60 border border-gray-200/60" style={{ border: 'none', outline: 'none' }}>
-                {(['Startup', 'Crypto', 'Small Business', 'Corporate'] as Category[]).map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-1.5 rounded-full font-book text-base transition-all duration-300 whitespace-nowrap ${
-                      selectedCategory === category
-                        ? 'bg-white/60 text-gray-800'
-                        : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50/30'
-                    }`}
-                    aria-pressed={selectedCategory === category}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
         </section>
 
         {/* Testimonials - Client Logos */}
-        <section className="px-4 py-8" aria-labelledby="testimonials-title">
+        <section className="px-4 py-4" aria-labelledby="testimonials-title">
           <div className="mx-auto">
             <h2 id="testimonials-title" className="sr-only">Client Testimonials</h2>
-            <div className="flex flex-wrap justify-between items-center gap-8 md:gap-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
               <div className="flex justify-center">
                 <img src="/logo05.png" alt="Client Logo" className="h-6" />
               </div>

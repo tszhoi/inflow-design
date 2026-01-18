@@ -21,6 +21,24 @@
   }
 }
 
+@keyframes fallIn {
+  0% { 
+    opacity: 0; 
+    transform: translateY(-1000px); 
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(20px);
+  }
+  70% {
+    transform: translateY(-1px);
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
 }
@@ -32,4 +50,9 @@ body {
 
 .animate-slide-up {
   animation: slideUp 1s ease-out forwards;
-} 
+}
+
+.animate-fall-in {
+  animation: fallIn 2.3s linear forwards;
+  animation-fill-mode: both;
+}

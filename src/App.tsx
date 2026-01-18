@@ -1,144 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { MeshGradient } from '@paper-design/shaders-react'
-import { 
-  Palette, 
-  Smartphone, 
-  Rocket, 
-  Gamepad2, 
-  ShoppingCart, 
-  ArrowRight,
-  Megaphone,
-  TrendingUp,
-  Check,
-  Globe,
-  Users
-} from 'lucide-react'
-
-interface Service {
-  id: number
-  title: string
-  icon: React.ReactNode
-}
-
-const services: Service[] = [
-  {
-    id: 1,
-    title: "UI/UX Design",
-    icon: <Palette className="w-4 h-4" />
-  },
-  {
-    id: 2,
-    title: "Product Design",
-    icon: <Smartphone className="w-4 h-4" />
-  },
-  {
-    id: 3,
-    title: "Marketing Design",
-    icon: <Megaphone className="w-4 h-4" />
-  },
-  {
-    id: 4,
-    title: "Startup Consulting",
-    icon: <Rocket className="w-4 h-4" />
-  },
-  {
-    id: 5,
-    title: "Growth Marketing",
-    icon: <TrendingUp className="w-4 h-4" />
-  },
-  {
-    id: 6,
-    title: "Game Development",
-    icon: <Gamepad2 className="w-4 h-4" />
-  },
-  {
-    id: 7,
-    title: "E-commerce Solutions",
-    icon: <ShoppingCart className="w-4 h-4" />
-  }
-]
-
-type Category = 'Startup' | 'Crypto' | 'Small Business' | 'Corporate'
-
-interface BentoCard {
-  id: number
-  category: Category[]
-  title?: string
-  description?: string
-  image?: string
-  span?: 'wide' | 'tall' | 'normal'
-}
-
-const bentoCards: BentoCard[] = [
-  {
-    id: 1,
-    category: ['Startup'],
-    span: 'wide',
-    image: '/wavy.png',
-  },
-  {
-    id: 2,
-    category: ['Startup'],
-    span: 'tall',
-    image: '/jupitrr.png',
-  },
-  {
-    id: 3,
-    category: ['Small Business'],
-    span: 'tall',
-  },
-  {
-    id: 4,
-    category: ['Small Business'],
-    span: 'wide',
-    image: '/brighthome.png',
-  },
-  {
-    id: 5,
-    category: ['Small Business'],
-    span: 'wide',
-    image: '/beautyspace.png',
-  },
-  {
-    id: 6,
-    category: ['Crypto'],
-    span: 'wide',
-    image: '/Coinfrs.png',
-  },
-  {
-    id: 7,
-    category: ['Startup'],
-    span: 'wide',
-    image: '/remotion.png',
-  },
-  {
-    id: 8,
-    category: ['Crypto'],
-    span: 'tall',
-    image: '/gero.png',
-  },
-  {
-    id: 9,
-    category: ['Crypto'],
-    span: 'wide',
-    image: '/buzzup.png',
-  },
-  {
-    id: 10,
-    category: ['Corporate'],
-    span: 'tall',
-  },
-  {
-    id: 11,
-    category: ['Corporate'],
-    span: 'wide',
-  },
-  {
-    id: 12,
-    category: ['Corporate'],
-    span: 'wide',
-  },
-]
+import { Category } from './types'
+import { bentoCards } from './data/bentoCards'
+import Logo from './components/Logo'
+import DesignValueAndServices from './components/DesignValueAndServices'
+import Pricing from './components/Pricing'
+import CTA from './components/CTA'
 
 function App() {
   const [showLogo, setShowLogo] = useState(false)
@@ -162,7 +29,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const categories: Category[] = ['Startup', 'Crypto', 'Small Business', 'Corporate']
+    const categories: Category[] = ['Startup', 'Crypto', 'Small Business', 'Enterprise']
     let currentIndex = categories.indexOf(selectedCategory)
 
     const interval = setInterval(() => {
@@ -173,6 +40,25 @@ function App() {
     return () => clearInterval(interval)
   }, [selectedCategory])
 
+  // Preload all project images on page load for better performance
+  useEffect(() => {
+    const preloadImages = () => {
+      const imageUrls = bentoCards
+        .filter(card => card.image)
+        .map(card => card.image!)
+      
+      imageUrls.forEach((imageUrl) => {
+        const img = new Image()
+        img.src = imageUrl
+      })
+    }
+
+    // Preload images after a short delay to not block initial render
+    const timeout = setTimeout(preloadImages, 100)
+    return () => clearTimeout(timeout)
+  }, [])
+
+  // Update indicator position for category toggle
   useEffect(() => {
     const updateIndicator = () => {
       const button = buttonRefs.current[selectedCategory]
@@ -189,7 +75,6 @@ function App() {
       }
     }
     
-    // Small delay to ensure buttons are rendered
     const timeout = setTimeout(updateIndicator, 0)
     window.addEventListener('resize', updateIndicator)
     return () => {
@@ -198,6 +83,7 @@ function App() {
     }
   }, [selectedCategory])
 
+  // Filter and sort cards for ProjectShowcase
   const filteredCards = bentoCards
     .filter(card => card.category.includes(selectedCategory))
     .sort((a, b) => {
@@ -215,7 +101,6 @@ function App() {
           <img src="/inflow.svg" alt="Inflow Design Co." className="w-48 h-16 opacity-50" />
         </header>
       )}
-
       {/* Main Content */}
       <main className="pt-8 px-8">
         {/* Hero Section */}
@@ -275,7 +160,7 @@ function App() {
                     }}
                   />
                 )}
-                {(['Startup', 'Crypto', 'Small Business', 'Corporate'] as Category[]).map((category) => (
+                {(['Startup', 'Crypto', 'Small Business', 'Enterprise'] as Category[]).map((category) => (
                   <button
                     key={category}
                     ref={(el) => (buttonRefs.current[category] = el)}
@@ -335,203 +220,10 @@ function App() {
           </div>
         </section>
 
-        {/* Testimonials - Client Logos */}
-        <section className="px-4 py-4" aria-labelledby="testimonials-title">
-          <div className="mx-auto">
-            <h2 id="testimonials-title" className="sr-only">Client Testimonials</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
-              <div className="flex justify-center">
-                <img src="/logo05.png" alt="Client Logo" className="h-6" />
-              </div>
-              
-              <div className="flex justify-center">
-                <img src="/logo06.png" alt="Client Logo" className="h-8" />
-              </div>
-              
-              <div className="flex justify-center">
-                <img src="/logo07.png" alt="Client Logo" className="h-10" />
-              </div>
-              
-              <div className="flex justify-center opacity-70">
-                <img src="/logo08.png" alt="Client Logo" className="h-20" />
-              </div>
-
-              <div className="flex justify-center">
-                <img src="/logo01.png" alt="Client Logo" className="h-6" />
-              </div>
-              
-              <div className="flex justify-center">
-                <img src="/logo02.png" alt="Client Logo" className="h-20" />
-              </div>
-              
-              <div className="flex justify-center">
-                <img src="/logo03.png" alt="Client Logo" className="h-8" />
-              </div>
-              
-              <div className="flex justify-center">
-                <img src="/logo04.png" alt="Client Logo" className="h-24" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Services */}
-        <section className="px-4 pt-32 pb-32 bg-white" aria-labelledby="services-title">
-          <div className="max-w-4xl mt-1 mx-auto">
-            <h2 id="services-title" className="sr-only">Our Services</h2>
-            <div className="flex flex-wrap justify-center gap-8 items-center">
-              {services.map((service) => (
-                <div 
-                  key={service.id}
-                  className="flex items-center gap-3"
-                >
-                  <div className="text-gray-600" aria-hidden="true">
-                    {service.icon}
-                  </div>
-                  <span className="text-gray-700 font-medium">{service.title}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Design Values */}
-        <section className="py-48 bg-[#3791EF] rounded-xl relative overflow-hidden" aria-labelledby="values-title">
-          {/* Background Circle Pattern */}
-          <div className="absolute -bottom-20 -right-60 transform -translate-x-1/2 translate-y-1/2 w-[550px] h-[550px] bg-white rounded-full opacity-90"></div>
-          
-          <div className="max-w-4xl mx-auto text-left relative z-10">
-            <div>
-              <h2 className="text-xl md:text-2xl font-light mb-8 leading-tighter md:leading-tight title-italic text-gray-50 tracking-tighter">as your design partner</h2>
-              <blockquote className="text-2xl md:text-4xl font-medium text-gray-50 tracking-tighter" style={{ lineHeight: '1.5' }}>
-                High-craft design with full flexibility <br/> You have the time to focus on what matters most
-              </blockquote>
-              
-              <div className="mt-8 flex flex-wrap gap-8 items-center">
-                <div className="flex items-center gap-3">
-                  <div className="text-blue-50" aria-hidden="true">
-                    <Globe className="w-4 h-4" />
-                  </div>
-                  <span className="text-blue-50">24/7 Support</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="text-blue-50" aria-hidden="true">
-                    <Users className="w-4 h-4" />
-                  </div>
-                  <span className="text-blue-50">Talents from Hong Kong, London, San Francisco, Vancouver</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section className="px-4 py-16" aria-labelledby="pricing-title">
-          <div className="max-w-4xl mx-auto">
-            <h2 id="pricing-title" className="text-xl py-8 md:text-2xl lg:text-3xl font-light mb-2 leading-tighter md:leading-tight title-italic text-gray-800 tracking-tighter">what our pricing looks like</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              
-              {/* Subscription Card */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                <div className="mb-8">
-                  <h3 className="text-2xl font-medium text-gray-800 mb-2">Subscription</h3>
-                  <p className="text-gray-600 mb-4">Ongoing design support</p>
-                  <div className="mb-4">
-                    <span className="text-sm text-gray-500">Starting from</span>
-                    <div className="mt-2">
-                      <span className="text-4xl font-semibold text-gray-800">$2,500</span>
-                      <span className="text-gray-600 ml-2">/month</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Unlimited design revisions</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Priority support & communication</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">UI/UX design & prototyping</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Monthly strategy sessions</span>
-                  </li>
-                </ul>
-                
-                <a 
-                  href="mailto:lee@inflowdesign.co?subject=Subscription%20Inquiry"
-                  className="w-full bg-gray-800 text-white py-3 px-6 rounded-xl font-medium hover:bg-gray-700 transition-colors inline-block text-center"
-                >
-                  Get Started
-                </a>
-              </div>
-
-              {/* Project-Based Card */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                <div className="mb-8">
-                  <h3 className="text-2xl font-medium text-gray-800 mb-2">Project-based</h3>
-                  <p className="text-gray-600 mb-4">One-time design projects</p>
-                  <div className="mb-4">
-                    <span className="text-sm text-gray-500">Starting from</span>
-                    <div className="mt-2">
-                      <span className="text-4xl font-semibold text-gray-800">$5,000</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Component library</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">High-fidelity prototypes</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Developer handoff files</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Unlimited revisions during project</span>
-                  </li>
-                </ul>
-                
-                <button 
-                  onClick={() => window.open('mailto:lee@inflowdesign.co')}
-                  className="w-full bg-gray-800 text-white py-3 px-6 rounded-xl font-medium hover:bg-gray-700 transition-colors"
-                >
-                  Start Project
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA - Card Design */}
-        <section className="px-4 md:px-8 lg:px-48 py-8" aria-labelledby="cta-title">
-          <div className="w-full">
-            <div className="bg-gray-50 rounded-2xl p-8 md:p-16 lg:p-32 text-center">
-              <h2 id="cta-title" className="text-xl md:text-2xl lg:text-3xl font-light mb-2 leading-tighter md:leading-tight title-italic text-gray-800 tracking-tighter">Let's build together</h2>
-              <p className="text-xs md:text-sm text-gray-400 mb-4">start with an intro call - no commitment</p>
-              <button 
-                onClick={() => window.open('mailto:lee@inflowdesign.co')}
-                className="bg-gray-800 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-medium hover:bg-gray-700 transition-all duration-300 flex items-center gap-2 md:gap-3 mx-auto text-sm md:text-base"
-                aria-label="Send email to lee@inflowdesign.co"
-              >
-                Get in touch
-                <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
-        </section>
+        <Logo />
+        <DesignValueAndServices />
+        <Pricing />
+        <CTA/>
       </main>
 
       {/* Footer - Minimal */}
@@ -574,4 +266,4 @@ function App() {
   )
 }
 
-export default App 
+export default App

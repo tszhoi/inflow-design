@@ -1,4 +1,3 @@
-import React from 'react'
 import { Category, BentoCard } from '../types'
 
 interface ProjectShowcaseProps {

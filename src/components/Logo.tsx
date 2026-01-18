@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Logo() {
   return (
     <section className="px-4 py-4" aria-labelledby="testimonials-title">
